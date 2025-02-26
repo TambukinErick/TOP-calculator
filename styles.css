@@ -26,12 +26,15 @@ body {
   border: 3px solid black;
   border-radius: 2px;
   height: 20vh;
+  display: flex;
+  flex-direction: column;
 }
 
 #current-total {
   display: flex;
-  flex-direction: row-reverse;
+  flex-direction:row-reverse;
   font-size: 5vh;
+  height: 5vh;
   flex-basis: 1 1 auto;
 }
 
