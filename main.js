@@ -46,14 +46,11 @@ function handleLeadingZeroes(currentOperand, currentNumber) {
   }
 }
 function storeOperator(operator) {
-  if (isFirstOperand) {
-    isFirstOperand = false;
-  }
   decimalFlag = false;
-
 
   if (primaryOperand !== "" && activeOperator == "") {
     activeOperator = operator;
+    isFirstOperand = false;
     setCalculatorDisplay(primaryOperand + activeOperator, "");
   } else if (validateOperationVariables()) {
     primaryOperand = operate(primaryOperand, activeOperator, secondaryOperand);
