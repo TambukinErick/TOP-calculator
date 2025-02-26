@@ -1,40 +1,65 @@
-function add(a, b) {
-  return a + b;
-}
+import {add, minus, divide, multiply, operate} from "./operation.js";
 
-function minus(a, b) {
-  return a - b;
-}
+let primaryOperand = "";
+let activeOperator = "";
+let secondaryOperand = "";
+let isFirstOperand = true;
 
-function divide(a, b) {
-  return a / b;
-}
 
-function multiply(a, b) {
-  return a * b;
-}
 
-let primaryOperand;
-let operator = "";
-let secondaryOperand;
+const numerals = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
+const operatorSymbols = ["+", "-", "/", "*"];
 
-function operate(a, operator, b) {
-  if (operator === "+") {
-    return add(a, b);
-  } else if (operator === "-") {
-    return minus(a, b);
-  } else if (operator === "*") {
-    return multiply(a, b);
-  } else if (operator === "/") {
-    return (b !== 0) ? divide(a, b) : "Dividing by 0 is not allowed";
+
+
+document.querySelectorAll('button').forEach(button => {
+  button.addEventListener("click", () => {
+    const clickedBtn = button.value;
+    processInput(clickedBtn)
+  })
+})
+
+
+
+
+function storeOperandInput(num) {
+  if (isFirstOperand) {
+    primaryOperand += num;
+    console.log(`Currently Creating Primary Operand Value: ${primaryOperand}`)
+  } else {
+    secondaryOperand += num;
+    console.log(`Currently Creating Secondary Operand Value: ${secondaryOperand}`)
   }
 }
 
+function storeOperator(operator) {
+  if (isFirstOperand) {
+    isFirstOperand = false;
+  }
+  if (activeOperator == "") {
+    activeOperator = operator;
+    console.log(activeOperator);
+  } 
+}
 
-
-
-
-
+function resetCalculationStateVariables() {
+    primaryOperand = "";
+    secondaryOperand == "";
+    activeOperator = "";
+    isFirstOperand = true;
+}
+function processInput(val) {
+  if (numerals.includes(val)) {
+    storeOperandInput(val);
+  } else if (operatorSymbols.includes(val)) {
+    storeOperator(val);
+  } else if (val == "clear") {
+    resetCalculationStateVariables();
+  } else if (val == "=") {
+    console.log(operate(primaryOperand, activeOperator, secondaryOperand));
+    resetCalculationStateVariables();
+  }
+}
 
 
 
