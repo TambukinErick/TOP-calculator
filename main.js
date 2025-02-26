@@ -1,4 +1,4 @@
-import {add, minus, divide, multiply, operate} from "./operation.js";
+import {operate} from "./operation.js";
 
 let primaryOperand = "";
 let activeOperator = "";
@@ -21,15 +21,18 @@ document.querySelectorAll('button').forEach(button => {
 const currentTotal = document.querySelector("#current-total");
 const currentInput = document.querySelector("#current-input");
 
+function setCalculatorDisplay(totalDisplay, inputDisplay) {
+  currentTotal.textContent = totalDisplay;
+  currentInput.textContent = inputDisplay;
+}
+
 function storeOperandInput(num) {
   if (isFirstOperand) {
     primaryOperand = handleLeadingZeroes(primaryOperand, num);
-    currentInput.textContent = primaryOperand;
-    console.log(`Currently Creating Primary Operand Value: ${primaryOperand}`)
+    setCalculatorDisplay(currentTotal.textContent, primaryOperand);
   } else {
     secondaryOperand = handleLeadingZeroes(secondaryOperand, num);
-    currentInput.textContent = secondaryOperand;
-    console.log(`Currently Creating Secondary Operand Value: ${secondaryOperand}`)
+    setCalculatorDisplay(currentTotal.textContent, secondaryOperand);
   }
 }
 
@@ -46,22 +49,21 @@ function storeOperator(operator) {
   if (isFirstOperand) {
     isFirstOperand = false;
   }
-
   decimalFlag = false;
+
+
   if (primaryOperand !== "" && activeOperator == "") {
     activeOperator = operator;
-    currentTotal.textContent = primaryOperand + activeOperator; 
-    currentInput.textContent = "";
+    setCalculatorDisplay(primaryOperand + activeOperator, "");
   } else if (validateOperationVariables()) {
     primaryOperand = operate(primaryOperand, activeOperator, secondaryOperand);
     activeOperator = operator;
     secondaryOperand = "";
-    currentTotal.textContent = primaryOperand + activeOperator;
-    currentInput.textContent = "";
+    setCalculatorDisplay(primaryOperand + activeOperator, "");
   } else if (primaryOperand !== "" && activeOperator !== "" && activeOperator !== operator && secondaryOperand === "") 
   {
     activeOperator = operator; 
-    currentTotal.textContent = primaryOperand + activeOperator; 
+    setCalculatorDisplay(primaryOperand + activeOperator, currentInput.textContent);
   }
 }
 
@@ -73,6 +75,11 @@ function validateOperationVariables() {
   return false;
 }
 
+function clear() {
+  resetCalculationStateVariables();
+  setCalculatorDisplay("", "");
+}
+
 function resetCalculationStateVariables() {
   primaryOperand = "";
   secondaryOperand = "";
@@ -81,13 +88,22 @@ function resetCalculationStateVariables() {
   decimalFlag = false;
 }
 
+function standardCalculationProcedure() {
+  if (validateOperationVariables()) {
+    const result = operate(primaryOperand, activeOperator, secondaryOperand);
+    resetCalculationStateVariables();
+    primaryOperand = result.toString();
+    setCalculatorDisplay("", primaryOperand)
+  }
+}
+
 function backspaceCurrentOperand() {
   if (isFirstOperand) {
     primaryOperand = (primaryOperand.length <= 1) ? "" : primaryOperand.slice(0, primaryOperand.length - 1);
-    currentInput.textContent = primaryOperand;
+    setCalculatorDisplay(currentTotal.textContent, primaryOperand);
   } else {
     secondaryOperand = (secondaryOperand.length <= 1) ? "" : secondaryOperand.slice(0, secondaryOperand.length - 1);
-    currentInput.textContent = secondaryOperand;
+    setCalculatorDisplay(currentTotal.textContent, secondaryOperand);
   }
 }
 
@@ -96,12 +112,12 @@ function processDecimalOperand() {
     return;
   }
   decimalFlag = true;
-  if (isFirstOperand && activeOperator == "") {
+  if (isFirstOperand && activeOperator == "" && !primaryOperand.includes(".")) {
     primaryOperand += ".";
-    currentInput.textContent = primaryOperand;
+    setCalculatorDisplay(currentTotal.textContent, primaryOperand);
   } else if (!isFirstOperand && activeOperator !== ""){
     secondaryOperand += ".";
-    currentInput.textContent = secondaryOperand;
+    setCalculatorDisplay(currentTotal.textContent, secondaryOperand);
   }
 }
 
@@ -111,17 +127,9 @@ function processInput(val) {
   } else if (operatorSymbols.includes(val)) {
     storeOperator(val);
   } else if (val == "clear") {
-    resetCalculationStateVariables();
-    currentTotal.textContent = "";
-    currentInput.textContent = "";
+    clear()
   } else if (val == "=") {
-    if (validateOperationVariables()) {
-      const result = operate(primaryOperand, activeOperator, secondaryOperand);
-      currentTotal.textContent = "";
-      currentInput.textContent = result;
-      resetCalculationStateVariables();
-      primaryOperand = result.toString();
-    }
+    standardCalculationProcedure();
   } else if (val == "backspace") {
     backspaceCurrentOperand();
   } else if (val == ".") {
