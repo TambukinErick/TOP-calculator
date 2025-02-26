@@ -14,7 +14,40 @@ function multiply(a, b) {
   return a * b;
 }
 
-console.log(add(1, 1));
-console.log(minus(1, 1));
-console.log(divide(2, 1));
-console.log(multiply(1, 2));
+let primaryOperand;
+let operator = "";
+let secondaryOperand;
+
+function operate(a, operator, b) {
+  if (operator === "+") {
+    return add(a, b);
+  } else if (operator === "-") {
+    return minus(a, b);
+  } else if (operator === "*") {
+    return multiply(a, b);
+  } else if (operator === "/") {
+    return (b !== 0) ? divide(a, b) : "Dividing by 0 is not allowed";
+  }
+}
+
+console.log(operate(1, "+", 1));
+console.log(operate(2, "-", 1));
+console.log(operate(1, "*", 2));
+console.log(operate(6, "/", 2));
+console.log(operate(1, "/", 0));
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
