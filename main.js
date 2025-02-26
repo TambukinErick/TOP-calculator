@@ -24,7 +24,7 @@ document.querySelectorAll('button').forEach(button => {
 
 function storeOperandInput(num) {
   if (isFirstOperand) {
-    primaryOperand += num;
+    primaryOperand += (primaryOperand === "0") ? "" : num;
     console.log(`Currently Creating Primary Operand Value: ${primaryOperand}`)
   } else {
     secondaryOperand += num;
@@ -48,6 +48,14 @@ function resetCalculationStateVariables() {
     activeOperator = "";
     isFirstOperand = true;
 }
+
+function backspaceCurrentOperand() {
+  if (isFirstOperand) {
+    primaryOperand = (primaryOperand.length <= 1) ? "" : primaryOperand.slice(0, primaryOperand.length - 1);
+  } else {
+    secondaryOperand = (secondaryOperand.length <= 1) ? "" : secondaryOperand.slice(0, secondaryOperand.length - 1);
+  }
+}
 function processInput(val) {
   if (numerals.includes(val)) {
     storeOperandInput(val);
@@ -58,6 +66,8 @@ function processInput(val) {
   } else if (val == "=") {
     console.log(operate(primaryOperand, activeOperator, secondaryOperand));
     resetCalculationStateVariables();
+  } else if (val == "backspace") {
+    backspaceCurrentOperand();
   }
 }
 
