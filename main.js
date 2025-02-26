@@ -4,6 +4,7 @@ let primaryOperand = "";
 let activeOperator = "";
 let secondaryOperand = "";
 let isFirstOperand = true;
+let decimalFlag = false;
 
 
 const numerals = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
@@ -46,6 +47,7 @@ function storeOperator(operator) {
     isFirstOperand = false;
   }
 
+  decimalFlag = false;
   if (primaryOperand !== "" && activeOperator == "") {
     activeOperator = operator;
     currentTotal.textContent = primaryOperand + activeOperator; 
@@ -64,28 +66,41 @@ function storeOperator(operator) {
 }
 
 function validateOperationVariables() {
-  if (primaryOperand !== "" && activeOperator !== "" && secondaryOperand !== "") {
+  if (primaryOperand !== "" && primaryOperand !== "." && activeOperator !== "" && 
+    secondaryOperand !== "" && secondaryOperand !== ".") {
     return true;
   }
   return false;
 }
 
 function resetCalculationStateVariables() {
-    primaryOperand = "";
-    secondaryOperand = "";
-    activeOperator = "";
-    isFirstOperand = true;
+  primaryOperand = "";
+  secondaryOperand = "";
+  activeOperator = "";
+  isFirstOperand = true;
+  decimalFlag = false;
 }
 
 function backspaceCurrentOperand() {
   if (isFirstOperand) {
-    console.log("test");
-    console.log(typeof(primaryOperand));
     primaryOperand = (primaryOperand.length <= 1) ? "" : primaryOperand.slice(0, primaryOperand.length - 1);
-    console.log(primaryOperand);
     currentInput.textContent = primaryOperand;
   } else {
     secondaryOperand = (secondaryOperand.length <= 1) ? "" : secondaryOperand.slice(0, secondaryOperand.length - 1);
+    currentInput.textContent = secondaryOperand;
+  }
+}
+
+function processDecimalOperand() {
+  if (decimalFlag) {
+    return;
+  }
+  decimalFlag = true;
+  if (isFirstOperand && activeOperator == "") {
+    primaryOperand += ".";
+    currentInput.textContent = primaryOperand;
+  } else if (!isFirstOperand && activeOperator !== ""){
+    secondaryOperand += ".";
     currentInput.textContent = secondaryOperand;
   }
 }
@@ -109,10 +124,10 @@ function processInput(val) {
     }
   } else if (val == "backspace") {
     backspaceCurrentOperand();
+  } else if (val == ".") {
+    processDecimalOperand();
   }
 }
-
-
 
 
 
