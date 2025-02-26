@@ -44,7 +44,7 @@ function storeOperator(operator) {
 
 function resetCalculationStateVariables() {
     primaryOperand = "";
-    secondaryOperand == "";
+    secondaryOperand = "";
     activeOperator = "";
     isFirstOperand = true;
 }
