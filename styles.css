@@ -28,6 +28,20 @@ body {
   height: 20vh;
 }
 
+#current-total {
+  display: flex;
+  flex-direction: row-reverse;
+  font-size: 5vh;
+  flex-basis: 1 1 auto;
+}
+
+#current-input {
+  display: flex;
+  flex-direction: row-reverse;
+  font-size: 10vh;
+  flex-basis: 1 1 auto;
+}
+
 #button-area {
   display: flex;
   flex-wrap: wrap;
