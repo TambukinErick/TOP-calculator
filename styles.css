@@ -1,0 +1,62 @@
+*, *:before, *:after {
+  box-sizing: border-box;
+}
+html {
+  height: 100%;
+}
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100%;
+}
+
+#calc-body {
+  border: 5px solid black;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  height: 90vh;
+  width: 28vw;
+  padding: 1.5vw 6vh;
+  gap: 4vh;
+}
+
+#screen {
+  border: 3px solid black;
+  border-radius: 2px;
+  height: 20vh;
+}
+
+#button-area {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0;
+  margin: 0;
+  flex-grow: 1;
+  gap: 1vh;
+}
+
+.button-row {
+  display: flex;
+  flex-basis: 100%;
+  gap: 1vh;
+}
+
+button {
+  padding:0;
+}
+.calculator-btn {
+  flex-basis: 100%;
+  font-size: 5vh;
+}
+
+
+
+
+
+
+
+
+
+

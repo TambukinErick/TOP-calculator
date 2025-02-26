@@ -30,12 +30,6 @@ function operate(a, operator, b) {
   }
 }
 
-console.log(operate(1, "+", 1));
-console.log(operate(2, "-", 1));
-console.log(operate(1, "*", 2));
-console.log(operate(6, "/", 2));
-console.log(operate(1, "/", 0));
-
 
 
 
