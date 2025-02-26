@@ -6,10 +6,8 @@ let secondaryOperand = "";
 let isFirstOperand = true;
 
 
-
 const numerals = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
 const operatorSymbols = ["+", "-", "/", "*"];
-
 
 
 document.querySelectorAll('button').forEach(button => {
@@ -19,14 +17,17 @@ document.querySelectorAll('button').forEach(button => {
   })
 })
 
-
+const currentTotal = document.querySelector("#current-total");
+const currentInput = document.querySelector("#current-input");
 
 function storeOperandInput(num) {
   if (isFirstOperand) {
     primaryOperand = handleLeadingZeroes(primaryOperand, num);
+    currentInput.textContent = primaryOperand;
     console.log(`Currently Creating Primary Operand Value: ${primaryOperand}`)
   } else {
     secondaryOperand = handleLeadingZeroes(secondaryOperand, num);
+    currentInput.textContent = secondaryOperand;
     console.log(`Currently Creating Secondary Operand Value: ${secondaryOperand}`)
   }
 }
@@ -47,17 +48,26 @@ function storeOperator(operator) {
 
   if (primaryOperand !== "" && activeOperator == "") {
     activeOperator = operator;
-    console.log(activeOperator);
-  } else if (primaryOperand !== "" && activeOperator !== "" && secondaryOperand !== "") {
+    currentTotal.textContent = primaryOperand + activeOperator; 
+    currentInput.textContent = "";
+  } else if (validateOperationVariables()) {
     primaryOperand = operate(primaryOperand, activeOperator, secondaryOperand);
-    console.log(primaryOperand);
     activeOperator = operator;
     secondaryOperand = "";
+    currentTotal.textContent = primaryOperand + activeOperator;
+    currentInput.textContent = "";
   } else if (primaryOperand !== "" && activeOperator !== "" && activeOperator !== operator && secondaryOperand === "") 
   {
     activeOperator = operator; 
-    console.log(activeOperator);
+    currentTotal.textContent = primaryOperand + activeOperator; 
   }
+}
+
+function validateOperationVariables() {
+  if (primaryOperand !== "" && activeOperator !== "" && secondaryOperand !== "") {
+    return true;
+  }
+  return false;
 }
 
 function resetCalculationStateVariables() {
@@ -70,10 +80,13 @@ function resetCalculationStateVariables() {
 function backspaceCurrentOperand() {
   if (isFirstOperand) {
     primaryOperand = (primaryOperand.length <= 1) ? "" : primaryOperand.slice(0, primaryOperand.length - 1);
+    currentInput.textContent = primaryOperand;
   } else {
     secondaryOperand = (secondaryOperand.length <= 1) ? "" : secondaryOperand.slice(0, secondaryOperand.length - 1);
+    currentInput.textContent = secondaryOperand;
   }
 }
+
 function processInput(val) {
   if (numerals.includes(val)) {
     storeOperandInput(val);
@@ -81,9 +94,16 @@ function processInput(val) {
     storeOperator(val);
   } else if (val == "clear") {
     resetCalculationStateVariables();
+    currentTotal.textContent = "";
+    currentInput.textContent = "";
   } else if (val == "=") {
-    console.log(operate(primaryOperand, activeOperator, secondaryOperand));
-    resetCalculationStateVariables();
+    if (validateOperationVariables()) {
+      const result = operate(primaryOperand, activeOperator, secondaryOperand);
+      currentTotal.textContent = result;
+      currentInput.textContent = "";
+      resetCalculationStateVariables();
+      primaryOperand = result;
+    }
   } else if (val == "backspace") {
     backspaceCurrentOperand();
   }
