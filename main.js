@@ -21,17 +21,25 @@ document.querySelectorAll('button').forEach(button => {
 
 
 
-
 function storeOperandInput(num) {
   if (isFirstOperand) {
-    primaryOperand += (primaryOperand === "0") ? "" : num;
+    primaryOperand = handleLeadingZeroes(primaryOperand, num);
     console.log(`Currently Creating Primary Operand Value: ${primaryOperand}`)
   } else {
-    secondaryOperand += num;
+    secondaryOperand = handleLeadingZeroes(secondaryOperand, num);
     console.log(`Currently Creating Secondary Operand Value: ${secondaryOperand}`)
   }
 }
 
+function handleLeadingZeroes(currentOperand, currentNumber) {
+  if (currentOperand === "0" && currentNumber === "0") {
+    return;
+  } else if (currentOperand === "0" && currentNumber !== "0") {
+    return currentNumber;
+  } else {
+    return currentOperand + currentNumber;
+  }
+}
 function storeOperator(operator) {
   if (isFirstOperand) {
     isFirstOperand = false;
