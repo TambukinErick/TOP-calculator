@@ -89,8 +89,7 @@ function standardCalculationProcedure() {
   if (validateOperationVariables()) {
     const result = operate(primaryOperand, activeOperator, secondaryOperand);
     resetCalculationStateVariables();
-    primaryOperand = result.toString();
-    setCalculatorDisplay("", primaryOperand)
+    setCalculatorDisplay("", result.toString());
   }
 }
 
