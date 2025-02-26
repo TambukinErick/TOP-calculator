@@ -44,10 +44,20 @@ function storeOperator(operator) {
   if (isFirstOperand) {
     isFirstOperand = false;
   }
-  if (activeOperator == "") {
+
+  if (primaryOperand !== "" && activeOperator == "") {
     activeOperator = operator;
     console.log(activeOperator);
-  } 
+  } else if (primaryOperand !== "" && activeOperator !== "" && secondaryOperand !== "") {
+    primaryOperand = operate(primaryOperand, activeOperator, secondaryOperand);
+    console.log(primaryOperand);
+    activeOperator = operator;
+    secondaryOperand = "";
+  } else if (primaryOperand !== "" && activeOperator !== "" && activeOperator !== operator && secondaryOperand === "") 
+  {
+    activeOperator = operator; 
+    console.log(activeOperator);
+  }
 }
 
 function resetCalculationStateVariables() {
