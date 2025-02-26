@@ -79,7 +79,10 @@ function resetCalculationStateVariables() {
 
 function backspaceCurrentOperand() {
   if (isFirstOperand) {
+    console.log("test");
+    console.log(typeof(primaryOperand));
     primaryOperand = (primaryOperand.length <= 1) ? "" : primaryOperand.slice(0, primaryOperand.length - 1);
+    console.log(primaryOperand);
     currentInput.textContent = primaryOperand;
   } else {
     secondaryOperand = (secondaryOperand.length <= 1) ? "" : secondaryOperand.slice(0, secondaryOperand.length - 1);
@@ -99,10 +102,10 @@ function processInput(val) {
   } else if (val == "=") {
     if (validateOperationVariables()) {
       const result = operate(primaryOperand, activeOperator, secondaryOperand);
-      currentTotal.textContent = result;
-      currentInput.textContent = "";
+      currentTotal.textContent = "";
+      currentInput.textContent = result;
       resetCalculationStateVariables();
-      primaryOperand = result;
+      primaryOperand = result.toString();
     }
   } else if (val == "backspace") {
     backspaceCurrentOperand();
