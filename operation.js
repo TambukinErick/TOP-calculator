@@ -19,13 +19,13 @@ function operate(a, operator, b) {
   a = Number(a);
   b = Number(b);
   if (operator === "+") {
-    return add(a, b);
+    return Math.round(add(a, b) * 100) / 100;
   } else if (operator === "-") {
-    return minus(a, b);
+    return Math.round(minus(a, b) * 100) / 100;
   } else if (operator === "*") {
-    return multiply(a, b);
+    return Math.round(multiply(a, b) * 100) / 100;
   } else if (operator === "/") {
-    return (b != 0) ? divide(a, b) : "Dividing by 0 is not allowed";
+    return (b != 0) ? Math.round(divide(a, b) * 100) / 100: "Dividing by 0 is not allowed";
   }
 }
 
