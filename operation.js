@@ -16,6 +16,8 @@ function multiply(a, b) {
 
 
 function operate(a, operator, b) {
+  a = Number(a);
+  b = Number(b);
   if (operator === "+") {
     return add(a, b);
   } else if (operator === "-") {
@@ -23,7 +25,7 @@ function operate(a, operator, b) {
   } else if (operator === "*") {
     return multiply(a, b);
   } else if (operator === "/") {
-    return (b !== 0) ? divide(a, b) : "Dividing by 0 is not allowed";
+    return (b != 0) ? divide(a, b) : "Dividing by 0 is not allowed";
   }
 }
 
