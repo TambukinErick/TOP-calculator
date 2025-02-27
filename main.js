@@ -117,6 +117,24 @@ function processDecimalOperand() {
   }
 }
 
+function negateOperand() {
+  if (isFirstOperand) {
+    if (primaryOperand.startsWith("-")) {
+      primaryOperand = (primaryOperand === "-") ? "" : primaryOperand.slice(1, primaryOperand.length); 
+    } else {
+      primaryOperand = "-" + primaryOperand;
+    }
+    setCalculatorDisplay(currentTotal.textContent, primaryOperand)
+  } else {
+    if (secondaryOperand.startsWith("-")) {
+      secondaryOperand = (secondaryOperand === "-") ? "" : secondaryOperand.slice(1, secondaryOperand.length); 
+    } else {
+      secondaryOperand = "-" + secondaryOperand;
+    }
+    setCalculatorDisplay(currentTotal.textContent, secondaryOperand)
+  }
+}
+
 function processInput(val) {
   if (numerals.includes(val)) {
     storeOperandInput(val);
@@ -130,6 +148,8 @@ function processInput(val) {
     backspaceCurrentOperand();
   } else if (val == ".") {
     processDecimalOperand();
+  } else if (val == "+/-") {
+    negateOperand();
   }
 }
 
