@@ -105,7 +105,7 @@ function backspaceCurrentOperand() {
 
 function processDecimalOperand() {
   if (decimalFlag) {
-    return;
+    console.log("Do Nothing");
   }
   decimalFlag = true;
   if (isFirstOperand && activeOperator == "" && !primaryOperand.includes(".")) {
@@ -135,6 +135,21 @@ function negateOperand() {
   }
 }
 
+
+function getPercentage() {
+  if (primaryOperand == "" && activeOperator == "") {
+    console.log("Do Nothing");
+  } else if (secondaryOperand == ".") {
+    secondaryOperand = "0";
+    setCalculatorDisplay(currentTotal.textContent, secondaryOperand);
+  } else {
+    const convertedPercentage = Number(secondaryOperand) / 100;
+    secondaryOperand = Math.floor((primaryOperand * convertedPercentage) * 100) / 100;
+    setCalculatorDisplay(currentTotal.textContent, secondaryOperand);
+  }
+}
+
+
 function processInput(val) {
   if (numerals.includes(val)) {
     storeOperandInput(val);
@@ -150,10 +165,10 @@ function processInput(val) {
     processDecimalOperand();
   } else if (val == "+/-") {
     negateOperand();
+  } else if (val == "%") {
+    getPercentage();
   }
 }
-
-
 
 
 

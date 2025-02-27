@@ -25,7 +25,7 @@ function operate(a, operator, b) {
   } else if (operator === "*") {
     return Math.round(multiply(a, b) * 100) / 100;
   } else if (operator === "/") {
-    return (b != 0) ? Math.round(divide(a, b) * 100) / 100: "Dividing by 0 is not allowed";
+    return (b != 0) ? Math.round(divide(a, b) * 100) / 100: "Undefined";
   }
 }
 
